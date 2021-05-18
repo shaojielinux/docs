@@ -21,11 +21,15 @@ jobs:
       with:
         path: vendor/bundle
         key: gems-${{ runner.os }}-${{ env.ruby-version }}-${{ hashFiles('**/Gemfile.lock') }}
+    
+    - name: Run script
+      run: |
+        cd zh-cn && gem update --system && bundle config set deployment 'true' && bundle install && bundle exec middleman build
+    
+    #- run: bundle config set deployment 'true'
+    #- run: bundle install
 
-    - run: bundle config set deployment 'true'
-    - run: bundle install
-
-    - run: bundle exec middleman build
+    #- run: bundle exec middleman build
 
     - name: Deploy
       uses: peaceiris/actions-gh-pages@v3
